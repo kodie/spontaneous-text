@@ -1,0 +1,50 @@
+{
+  "name": "spontaneous-text",
+  "version": "1.0.0",
+  "description": "A node module that draws the provided text string onto the provided image in a random font, color, size, and position.",
+  "keywords": [
+    "rnd",
+    "random",
+    "spontaneous",
+    "image",
+    "img",
+    "text",
+    "pic",
+    "picture",
+    "draw",
+    "font",
+    "canvas"
+  ],
+  "author": {
+    "name": "Kodie Grantham",
+    "email": "kodie.grantham@gmail.com",
+    "url": "http://kodieg.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kodie/spontaneous-text.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kodie/spontaneous-text/issues"
+  },
+  "homepage": "https://github.com/kodie/spontaneous-text",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "run": "node index.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "canvas": "^1.6.2",
+    "colors": "^1.1.2",
+    "fs": "0.0.1-security",
+    "image-size": "^0.5.1",
+    "node-canvas-text": "^1.0.2",
+    "opentype.js": "^0.6.7",
+    "p-if": "^1.1.0",
+    "promise": "^7.1.1",
+    "random-google-font": "^0.1.2",
+    "randomcolor": "^0.4.4",
+    "request": "^2.79.0"
+  }
+}
