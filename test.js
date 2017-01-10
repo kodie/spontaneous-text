@@ -12,7 +12,7 @@ request.get({encoding: 'binary', url: imgUrl}, function(error, response, body){
     imgText(img, text, options, function(err, res) {
       if (!err) {
         console.log(res);
-      } else { throw err; }
+      } else { console.log(new Error(err)); }
     });
 
   } else { throw error; }

@@ -19,7 +19,7 @@ var options = {
 imgText(image, text, options, function(err, res) {
   if (!err) {
     console.log(res);
-  } else { throw err; }
+  } else { console.log(new Error(err)); }
 });
 ```
 
