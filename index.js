@@ -1,3 +1,5 @@
+'use strict';
+
 var Canvas = require('canvas');
 var Image = Canvas.Image;
 var colors = require('colors');
