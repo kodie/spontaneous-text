@@ -1,6 +1,6 @@
 {
   "name": "spontaneous-text",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A node module that draws the provided text string onto the provided image in a random font, color, size, and position.",
   "keywords": [
     "rnd",
