@@ -2,15 +2,16 @@
 
 var Canvas = require('canvas');
 var Image = Canvas.Image;
+var ColorThief = require('color-thief');
 var colors = require('colors');
 var drawText = require('node-canvas-text').default;
 var font = require('random-google-font');
 var fs = require('fs');
 var opentype = require('opentype.js');
 var promise = require('promise');
-var randomcolor = require('randomcolor');
 var request = require('request');
 var sizeOf = require('image-size');
+var tinycolor = require('tinycolor2');
 const pIf = require('p-if');
 
 var settings = {};
@@ -32,31 +33,6 @@ function getTextBox(text) {
 
   if (!settings.mute) { console.log(`Text Box: w:${w} h:${h} x:${x} y:${y}`.bold); }
   return {width:w,height:h,x:x,y:y};
-}
-
-function getImgBrightness(imgBuffer, box) {
-  if (!settings.mute) { console.log('Getting text-box area brightness...'.dim); }
-
-  var canvas = new Canvas(box.width, box.height);
-  var ctx = canvas.getContext('2d');
-  var img = new Image;
-
-  img.src = imgBuffer;
-  ctx.drawImage(img, -box.x, -box.y);
-
-  var data = ctx.getImageData(0, 0, box.width, box.height).data;
-  var brightness = 0;
-
-  for (var i = 0; i < data.length; i += 4) {
-    var r = data[i];
-    var g = data[i + 1];
-    var b = data[i + 2];
-    brightness += 0.34 * r + 0.5 * g + 0.16 * b;
-    if (brightness !== 0) { brightness /= 2 };
-  }
-
-  if (!settings.mute) { console.log(`Text-box area brightness: ${brightness}`.bold); }
-  return brightness;
 }
 
 function getFont() {
@@ -85,14 +61,36 @@ function bufferToArrayBuffer(buffer) {
   return ab;
 }
 
-function getTxtColor(imgBuffer, box) {
-  var brightness = getImgBrightness(imgBuffer, box);
-  var opts = { luminosity: 'bright' };
-  if (brightness > 127) { opts.luminosity = 'dark'; }
+function getImgPart(imgBuffer, box) {
+  if (!settings.mute) { console.log('Getting text-box area...'.dim); }
 
-  if (!settings.mute) { console.log(`Deciding ${opts.luminosity} text color...`.dim); }
-  var color = randomcolor(opts);
+  var canvas = new Canvas(box.width, box.height);
+  var ctx = canvas.getContext('2d');
+  var img = new Image;
 
+  img.src = imgBuffer;
+  ctx.drawImage(img, -box.x, -box.y);
+
+  return canvas.toBuffer();
+}
+
+function getTxtColor(imgBuffer) {
+  if (!settings.mute) { console.log(`Deciding text color...`.dim); }
+
+  var colorThief = new ColorThief();
+  var domColor = colorThief.getColor(imgBuffer);
+
+  function decideColor(domColor) {
+    var color = tinycolor.random().toHexString();
+
+    if (!tinycolor.isReadable(domColor, color, {level: "AAA", size: "large"})) {
+      return decideColor(domColor);
+    } else {
+      return color;
+    }
+  }
+
+  var color = decideColor(domColor);
   if (!settings.mute) { console.log(`Text color: ${color}`.bold); }
   return color;
 }
@@ -145,7 +143,8 @@ module.exports = function(image, text, options, cb) {
       var fontName = r[1].local[0];
       var fontUrl = r[1].url.ttf;
       var box = getTextBox(text);
-      var color = getTxtColor(image, box);
+      var boxImg = getImgPart(image, box);
+      var color = getTxtColor(boxImg);
       var img = writeText(image, text, font, color, box);
       image = img.toBuffer();
 

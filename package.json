@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "canvas": "^1.6.2",
+    "color-thief": "^2.2.2",
     "colors": "^1.1.2",
     "fs": "0.0.1-security",
     "image-size": "^0.5.1",
@@ -44,7 +45,7 @@
     "p-if": "^1.1.0",
     "promise": "^7.1.1",
     "random-google-font": "^0.1.2",
-    "randomcolor": "^0.4.4",
-    "request": "^2.79.0"
+    "request": "^2.79.0",
+    "tinycolor2": "^1.4.1"
   }
 }
