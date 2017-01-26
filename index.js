@@ -132,7 +132,7 @@ module.exports = function(image, text, options, cb) {
 
   settings = Object.assign({}, defaults, options);
 
-  if (!cb) { var cb = function(e, i, d) { if (e) { throw e; } } }
+  if (!cb) { var cb = function(e, i, d) { if (e) { console.log(new Error(e)); } } }
   if (!image instanceof Buffer) { image = fs.readFileSync(image); }
 
   settings.dimensions = sizeOf(image);
