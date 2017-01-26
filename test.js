@@ -15,5 +15,5 @@ request.get({encoding: 'binary', url: imgUrl}, function(error, response, body){
       } else { console.log(new Error(err)); }
     });
 
-  } else { throw error; }
+  } else { console.log(new Error(error)); }
 });
