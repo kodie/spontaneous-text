@@ -1,4 +1,4 @@
-# spontaneous-text
+# spontaneous-text [![npm version](https://badge.fury.io/js/spontaneous-text.svg)](https://badge.fury.io/js/spontaneous-text)
 
 A node module that draws the provided text string onto the provided image in a random font, color, size, and position.
 
